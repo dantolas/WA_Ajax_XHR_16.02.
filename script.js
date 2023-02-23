@@ -8,15 +8,24 @@ req.addEventListener("progress", updateProgress);
 
 
 
+
+let jakVelkyJsouMojeKoule = window.localStorage.getItem("Moje koule");
+console.log("Moje koule jsou takhle velky:"+jakVelkyJsouMojeKoule);
+
 req.addEventListener("load", function(){
     let array = loadData(this.response);
     console.log("Data in array ----------");
     console.log(array);
+    console.log("||||||||||||||||||||||||||||||||||||||")
+    array.forEach(datanode => {
+        console.log();
+    });
+
 
     localStorage.setItem('DataJson',this.response);
 
-    let savedData = localStorage.getItem('DataArray');
-    //console.log("Data from localstorage array--------------\n"+loadData(savedData));
+    let savedData = localStorage.getItem('DataJson');
+    console.log("Data from localstorage array--------------\n"+loadData(savedData));
 });
 req.open("GET", "https://datausa.io/api/data?drilldowns=Nation&measures=Population");
 req.send();
@@ -29,11 +38,8 @@ function loadData(jsonStr){
 
     let nodeArray = [];
     array.data.forEach(element => {
-        
         const node = new DataNode(element['ID Nation'], element['Nation'], element['ID Year'],element['Year'],element['Population'],element['Slug Nation']);
-        
         nodeArray.push(node);
-        
     });
 
     
